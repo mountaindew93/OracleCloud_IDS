@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+pandas
+numpy
+scikit-learn
+joblib
+
+oracledb
+oci
+
+kafka-python
+
+python-dotenv
+requests
+
+python-multipart
