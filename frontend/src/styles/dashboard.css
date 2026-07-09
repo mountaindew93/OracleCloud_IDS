@@ -12,7 +12,7 @@
 .grid-alerts { display: grid; grid-template-columns: 5.5fr 4.5fr; gap: 16px; margin-bottom: 16px; }
 
 .gauge-card { display: flex; flex-direction: column; justify-content: center; height: 100%; }
-.gauge-score-row { display: flex; align-items: baseline; gap: 8px; margin-top: 10px; margin-bottom: 6px; }
+.gauge-score-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
 .gauge-score { font-size: 38px; font-weight: 800; color: var(--navy); }
 .gauge-max { font-size: 13px; color: var(--text-faint); font-weight: 700; }
 .gauge-badge { margin-left: auto; font-size: 10.5px; font-weight: 800; padding: 5px 12px; border-radius: 20px; background: var(--amber-bg); color: #B4790C; }
@@ -22,7 +22,7 @@
 .gauge-labels { display: flex; justify-content: space-between; margin-top: 9px; font-size: 10.5px; color: var(--text-faint); font-weight: 700; }
 .gauge-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
 .gauge-stat-label { font-size: 10px; color: var(--text-faint); font-weight: 700; text-transform: uppercase; letter-spacing: .3px; }
-.gauge-stat-value { font-size: 15px; font-weight: 800; color: var(--navy); margin-top: 5px; font-family: var(--font-mono); }
+.gauge-stat-value { font-size: 15px; font-weight: 800; color: var(--navy); margin-top: 5px; font-family: var(--font); }
 
 .alert-list { display: flex; flex-direction: column; }
 .alert-row { display: grid; grid-template-columns: 56px 1fr 68px 84px; align-items: center; gap: 10px; padding: 11px 4px; border-bottom: 1px solid var(--border); }
@@ -30,7 +30,7 @@
 .alert-row.head { padding: 0 4px 9px; border-bottom: 1px solid var(--border); }
 .alert-row.head span { font-size: 10px; font-weight: 700; color: var(--text-faint); letter-spacing: .4px; text-transform: uppercase; text-align: left; }
 .alert-conf { text-align: left; padding-left: 2px; }
-.alert-time { font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; color: var(--text-dim); }
+.alert-time { font-family: var(--font); font-size: 11.5px; font-weight: 500; color: var(--text-dim); }
 .alert-type-cell { display: flex; align-items: center; gap: 9px; min-width: 0; }
 .alert-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
 .alert-title { font-size: 12.5px; font-weight: 800; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -41,3 +41,7 @@
 
 @media(max-width: 1100px) { .kpi-row { grid-template-columns: 1fr 1fr; } .grid-2 { grid-template-columns: 1fr; } }
 @media(max-width: 600px) { .kpi-row { grid-template-columns: 1fr; } }
+
+.dashboard-page {
+  padding-bottom: 5px;
+}

@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function ServerStatus() {
   return (
-    <div className="card">
+    <div className="card server-card">
       <div className="card-head">
         <div>
           <div className="card-title">서버 상태</div>

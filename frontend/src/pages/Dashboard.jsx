@@ -17,7 +17,7 @@ export default function Dashboard() {
   );
 
   return (
-    <section className="page active">
+    <section className="page active dashboard-page">
       <SummaryCard />
 
       <div className="grid-2">
