@@ -1,0 +1,43 @@
+/* src/styles/dashboard.css */
+.kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
+.kpi-card { background: var(--card); border-radius: 18px; box-shadow: var(--shadow); padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.kpi-label { font-size: 11.5px; color: var(--text-dim); font-weight: 600; }
+.kpi-value { font-size: 19px; font-weight: 800; color: var(--navy); margin-top: 6px; }
+.kpi-delta { font-size: 11px; font-weight: 700; margin-left: 6px; }
+.kpi-icon { width: 44px; height: 44px; border-radius: 13px; background: var(--navy-dark); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.kpi-icon svg { width: 19px; height: 19px; }
+
+.dropdown-pill { font-size: 11px; font-weight: 600; color: var(--text-dim); border: 1px solid var(--border); border-radius: 10px; padding: 5px 11px; }
+.chart-box { position: relative; height: 190px; width: 100%; }
+.grid-alerts { display: grid; grid-template-columns: 5.5fr 4.5fr; gap: 16px; margin-bottom: 16px; }
+
+.gauge-card { display: flex; flex-direction: column; justify-content: center; height: 100%; }
+.gauge-score-row { display: flex; align-items: baseline; gap: 8px; margin-top: 10px; margin-bottom: 6px; }
+.gauge-score { font-size: 38px; font-weight: 800; color: var(--navy); }
+.gauge-max { font-size: 13px; color: var(--text-faint); font-weight: 700; }
+.gauge-badge { margin-left: auto; font-size: 10.5px; font-weight: 800; padding: 5px 12px; border-radius: 20px; background: var(--amber-bg); color: #B4790C; }
+.gauge-desc { font-size: 11.5px; color: var(--text-dim); font-weight: 600; margin-bottom: 14px; line-height: 1.5; }
+.gauge-track { position: relative; height: 12px; border-radius: 8px; background: linear-gradient(90deg, #4FDDB8 0%, #FADAAA 50%, #EF9289 100%); }
+.gauge-pointer { position: absolute; top: -5px; width: 4px; height: 22px; background: var(--navy-dark); border-radius: 3px; box-shadow: 0 0 0 3px #fff, 0 3px 8px rgba(0,0,0,.25); transform: translateX(-50%); }
+.gauge-labels { display: flex; justify-content: space-between; margin-top: 9px; font-size: 10.5px; color: var(--text-faint); font-weight: 700; }
+.gauge-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+.gauge-stat-label { font-size: 10px; color: var(--text-faint); font-weight: 700; text-transform: uppercase; letter-spacing: .3px; }
+.gauge-stat-value { font-size: 15px; font-weight: 800; color: var(--navy); margin-top: 5px; font-family: var(--font-mono); }
+
+.alert-list { display: flex; flex-direction: column; }
+.alert-row { display: grid; grid-template-columns: 56px 1fr 68px 84px; align-items: center; gap: 10px; padding: 11px 4px; border-bottom: 1px solid var(--border); }
+.alert-row:last-child { border-bottom: none; }
+.alert-row.head { padding: 0 4px 9px; border-bottom: 1px solid var(--border); }
+.alert-row.head span { font-size: 10px; font-weight: 700; color: var(--text-faint); letter-spacing: .4px; text-transform: uppercase; text-align: left; }
+.alert-conf { text-align: left; padding-left: 2px; }
+.alert-time { font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; color: var(--text-dim); }
+.alert-type-cell { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.alert-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.alert-title { font-size: 12.5px; font-weight: 800; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.alert-status-cell { text-align: left; }
+.alert-status { display: inline-flex; align-items: center; justify-content: center; gap: 5px; font-weight: 700; font-size: 10px; padding: 5px 10px; border-radius: 20px; white-space: nowrap; }
+.alert-status.blocked { background: var(--green-bg); color: var(--green); }
+.alert-status.detected { background: var(--amber-bg); color: #B4790C; }
+
+@media(max-width: 1100px) { .kpi-row { grid-template-columns: 1fr 1fr; } .grid-2 { grid-template-columns: 1fr; } }
+@media(max-width: 600px) { .kpi-row { grid-template-columns: 1fr; } }
