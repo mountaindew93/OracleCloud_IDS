@@ -1,19 +1,33 @@
-*{
-
-    margin:0;
-
-    padding:0;
-
-    box-sizing:border-box;
-
+/* src/styles/global.css */
+.ng-root {
+  --bg: #F7FAFC; --card: #FFFFFF; --navy: #1B2559; --navy-dark: #0F1535; --text: #1B2559;
+  --text-dim: #707EAE; --text-faint: #A3AED0; --border: #E9EDF7; --teal: #0BC5B1; --teal-2: #00B5D8;
+  --teal-deep: #039487; --grad-teal: linear-gradient(135deg, #0BE8C6 0%, #0090C6 100%);
+  --green: #05CD99; --green-bg: #E6FBF4; --red: #EE5D50; --red-bg: #FEEDEC; --amber: #FFB547; --amber-bg: #FFF6E6;
+  --violet: #7551FF; --violet-bg: #EFEBFF; --shadow: 0 8px 26px rgba(112,144,176,.12); --shadow-sm: 0 3px 10px rgba(112,144,176,.1);
+  --font: 'Plus Jakarta Sans', 'Noto Sans KR', sans-serif; --font-mono: 'DM Mono', monospace;
+  font-family: var(--font); background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden;
 }
 
-body{
+.ng-root * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    background:#111827;
+main { flex: 1; min-width: 0; height: 100vh; display: flex; flex-direction: column; overflow: hidden; padding-top: 14px; }
+.content { flex: 1; min-height: 0; overflow-y: auto; padding: 0 26px 22px; }
 
-    color:white;
+.page.active { display: block; animation: ngfadein .3s ease; }
+@keyframes ngfadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes ngblink { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
 
-    font-family:Inter,sans-serif;
+/* 공통 카드 스타일 */
+.card { background: var(--card); border-radius: 18px; box-shadow: var(--shadow); padding: 18px 20px; }
+.card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.card-title { font-size: 13.5px; font-weight: 800; color: var(--navy); }
+.card-sub { font-size: 10.5px; color: var(--text-faint); font-weight: 600; margin-top: 2px; }
+.card { background: var(--card); border-radius: 18px; box-shadow: var(--shadow); padding: 18px 20px; min-width: 0; }
 
-}
+/* 공통 그리드 레이아웃 */
+.grid-2 { display: grid; grid-template-columns: 0.75fr 1.55fr; gap: 16px; margin-bottom: 16px; align-items: start; }
+
+@media(max-width: 900px) { .sidebar { display: none; } }
+@media(max-width: 600px) { .content { padding: 0 16px 40px; } }
+
