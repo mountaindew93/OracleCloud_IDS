@@ -119,29 +119,42 @@ def get_recent_predictions(limit=20):
     return rows
 
 
-def get_attack_statistics():
+def get_dashboard_statistics():
 
     conn = get_connection()
-
     cursor = conn.cursor(dictionary=True)
 
-    cursor.execute(
-        """
+    cursor.execute("""
         SELECT
-            predicted_attack,
-            COUNT(*) AS count
+            COUNT(*) AS total_predictions,
+            SUM(prediction='Normal') AS total_normal,
+            SUM(prediction='Attack') AS total_attacks
         FROM prediction_history
-        GROUP BY predicted_attack
-        ORDER BY count DESC
-        """
-    )
+        WHERE created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+    """)
 
-    rows = cursor.fetchall()
+    result = cursor.fetchone()
+
+    total = result["total_predictions"] or 0
+    attack = result["total_attacks"] or 0
+
+    if total == 0:
+        attack_rate = 0
+        risk_score = 0
+    else:
+        attack_rate = attack / total * 100
+
+        risk_score = min(100, round(attack_rate * 2))
+
+    result["risk_score"] = risk_score
+    result["attack_rate"] = round(attack_rate, 2)
 
     cursor.close()
     conn.close()
 
-    return rows
+    return result
+
+    
 def get_recent_notifications(limit=20):
 
     conn = get_connection()
@@ -169,44 +182,6 @@ def get_recent_notifications(limit=20):
 
     return rows
 
-
-def get_dashboard_statistics():
-
-    conn = get_connection()
-
-    cursor = conn.cursor(dictionary=True)
-
-    cursor.execute(
-        """
-        SELECT
-            COUNT(*) AS total_predictions,
-
-            SUM(
-                CASE
-                    WHEN prediction='Attack'
-                    THEN 1
-                    ELSE 0
-                END
-            ) AS total_attacks,
-
-            SUM(
-                CASE
-                    WHEN prediction='Normal'
-                    THEN 1
-                    ELSE 0
-                END
-            ) AS total_normal
-        FROM prediction_history
-        """
-    )
-
-    row = cursor.fetchone()
-
-    cursor.close()
-    conn.close()
-
-    return row
-
 def get_model_info():
 
     return {
@@ -215,3 +190,104 @@ def get_model_info():
         "accuracy": 0.874598,
         "dataset": "UNSW-NB15"
     }
+
+def get_attack_trend():
+
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT
+            HOUR(created_at) AS hour,
+            COUNT(*) AS count
+        FROM prediction_history
+        WHERE prediction = 'Attack'
+          AND created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+        GROUP BY HOUR(created_at)
+    """)
+
+    db_rows = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    attack_map = {
+        row["hour"]: row["count"]
+        for row in db_rows
+    }
+
+    trend = []
+
+    for hour in range(24):
+        trend.append({
+            "hour": f"{hour:02d}:00",
+            "count": attack_map.get(hour, 0)
+        })
+
+    return trend
+
+def get_recent_attacks(limit=6):
+
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(
+        """
+        SELECT *
+        FROM prediction_history
+        WHERE prediction='Attack'
+        ORDER BY created_at DESC
+        LIMIT %s
+        """,
+        (limit,)
+    )
+
+    rows = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return rows
+
+def get_attack_statistics():
+
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT
+            predicted_attack,
+            COUNT(*) AS count
+        FROM prediction_history
+        WHERE prediction='Attack'
+            AND created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+        GROUP BY predicted_attack
+        ORDER BY count DESC;
+    """)
+
+    rows = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return rows
+
+def get_logs(limit=1000):
+
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute("""
+        SELECT *
+        FROM prediction_history
+        WHERE created_at >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+        ORDER BY created_at DESC
+        LIMIT %s
+    """, (limit,))
+
+    rows = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return rows

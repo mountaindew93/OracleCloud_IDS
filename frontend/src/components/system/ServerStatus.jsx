@@ -21,9 +21,9 @@ export default function ServerStatus() {
         <span className="status-badge ok">Operational</span>
       </div>
       <div className="status-row">
-        <div className="status-dot" style={{ background: "var(--amber)", boxShadow: "0 0 0 4px var(--amber-bg)" }} />
+        <div className="status-dot" style={{ background: "var(--green)", boxShadow: "0 0 0 4px var(--green-bg)" }} />
         <div className="status-name">Pipeline</div>
-        <span className="status-badge warn">Degraded</span>
+        <span className="status-badge ok">Operational</span>
       </div>
     </div>
   );

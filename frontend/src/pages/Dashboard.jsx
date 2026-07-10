@@ -1,34 +1,106 @@
 // src/pages/Dashboard.jsx
-import React, { useMemo, useState } from 'react';
-import SummaryCard from '../components/dashboard/SummaryCard';
-import RiskGauge from '../components/dashboard/RiskGauge';
-import AttackTrendChart from '../components/dashboard/AttackTrendChart';
-import AttackTypeChart from '../components/dashboard/AttackTypeChart';
-import RecentAttack from '../components/dashboard/RecentAttack';
-import { pad, rnd, makeLog } from '../data/mockData';
+
+import React, { useEffect, useMemo, useState } from "react";
+
+import SummaryCard from "../components/dashboard/SummaryCard";
+import RiskGauge from "../components/dashboard/RiskGauge";
+import AttackTrendChart from "../components/dashboard/AttackTrendChart";
+import AttackTypeChart from "../components/dashboard/AttackTypeChart";
+import RecentAttack from "../components/dashboard/RecentAttack";
+
+import api from "../services/api";
 
 export default function Dashboard() {
-  // Mock 데이터 생성 (향후 3차 단계에서 API로 대체될 부분)
-  const typeCounts = useMemo(() => [1180, 720, 610, 290, 340, 180, 150, 90, 60], []);
-  const hours = useMemo(() => Array.from({ length: 12 }, (_, i) => pad(i * 2) + ":00"), []);
-  const lineData = useMemo(() => hours.map(() => rnd(20, 260)), [hours]);
-  const [alerts] = useState(() =>
-    Array.from({ length: 6 }, () => makeLog(true)).sort((a, b) => b.time.localeCompare(a.time))
-  );
+  const [dashboard, setDashboard] = useState(null);
+  const [alerts, setAlerts] = useState([]);
+
+  useEffect(() => {
+    loadDashboard();
+
+    const timer = setInterval(loadDashboard, 60000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  async function loadDashboard() {
+    try {
+
+      const [dashboardRes, attackRes] = await Promise.all([
+        api.get("/dashboard"),
+        api.get("/recent-attacks")
+      ]);
+
+      setDashboard(dashboardRes.data);
+      setAlerts(attackRes.data);
+
+    } catch (err) {
+      console.error("Dashboard API Error :", err);
+    }
+  }
+
+  // 아직 API가 오기 전
+  if (!dashboard) {
+    return <div>Loading...</div>;
+  }
+
+  const summary = dashboard.summary;
+
+  const attackRate =
+    summary.total_predictions === 0
+      ? 0
+      : (summary.total_attacks / summary.total_predictions) * 100;
+
+  
+  const attackMap = {};
+
+  dashboard.statistics.forEach(item => {
+  attackMap[item.predicted_attack] = item.count;
+  });
+
+  const typeCounts = [
+    attackMap["DoS"] || 0,
+    attackMap["Exploits"] || 0,
+    attackMap["Generic"] || 0,
+    attackMap["Reconnaissance"] || 0,
+    attackMap["Fuzzers"] || 0,
+    attackMap["Analysis"] || 0,
+    attackMap["Backdoor"] || 0,
+    attackMap["Shellcode"] || 0,
+    attackMap["Worms"] || 0,
+  ];
+
+  const hours = dashboard.trend.map(item => item.hour);
+  const lineData = dashboard.trend.map(item => item.count);
 
   return (
     <section className="page active dashboard-page">
-      <SummaryCard />
+
+      <SummaryCard
+        total={summary.total_predictions}
+        normal={summary.total_normal}
+        attack={summary.total_attacks}
+        attackRate={attackRate}
+        accuracy={(dashboard.model.accuracy * 100).toFixed(2)}
+      />
 
       <div className="grid-2">
-        <RiskGauge />
-        <AttackTrendChart hours={hours} lineData={lineData} />
+        <RiskGauge attackRate={summary.risk_score} />
+        <AttackTrendChart
+          hours={hours}
+          lineData={lineData}
+        />
       </div>
 
       <div className="grid-alerts">
-        <AttackTypeChart typeCounts={typeCounts} />
-        <RecentAttack alerts={alerts} />
+        <AttackTypeChart
+          typeCounts={typeCounts}
+        />
+
+        <RecentAttack
+          alerts={alerts}
+        />
       </div>
+
     </section>
   );
 }

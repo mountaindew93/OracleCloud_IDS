@@ -19,12 +19,11 @@ def main():
 
             if not has_data:
 
-                print()
-                print("=" * 50)
-                print("No more packets.")
-                print("Scheduler Finished.")
-                print("=" * 50)
-                break
+                print("Waiting for new file...")
+
+                time.sleep(5)
+
+                continue
 
         except Exception as e:
 
