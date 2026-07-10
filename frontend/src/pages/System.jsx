@@ -8,7 +8,7 @@ export default function System() {
   return (
     <section className="page active">
       <div className="page-head" style={{ marginBottom: 12 }}>
-        <div className="card-sub" style={{ fontSize: 11, letterSpacing: .4, textTransform: "uppercase" }}>AI 모델 정보 · 실시간 상태</div>
+        <div className="card-sub" style={{ fontSize: 11, letterSpacing: .4, textTransform: "uppercase", marginLeft: 10 }}>AI 모델 정보 · 실시간 상태</div>
       </div>
       
       <div className="grid-2" style={{ gridTemplateColumns: "1fr 1fr" }}>

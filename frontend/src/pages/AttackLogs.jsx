@@ -13,7 +13,7 @@ export default function AttackLogs() {
   const [minConf, setMinConf] = useState(0);
   const [sortByConf, setSortByConf] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const PAGE_SIZE = 8;
+  const PAGE_SIZE = 7;
 
   const resetPage = useCallback(() => setCurrentPage(0), []);
 

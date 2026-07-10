@@ -1,13 +1,26 @@
 /* src/styles/attacklogs.css */
-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-thead th { text-align: left; font-size: 10px; font-weight: 700; color: var(--text-faint); letter-spacing: .4px; text-transform: uppercase; padding: 9px 10px; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; }
+table { width: 100%; border-collapse: separate; border-spacing: 0; table-layout:fixed; font-size: 12px; }
+
+thead{    position:relative;}
+thead::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:1px;
+    background:var(--border);
+}
+thead th { text-align: left; font-size: 10px; font-weight: 700; color: var(--text-faint); letter-spacing: .4px; text-transform: uppercase; height:45px; padding: 15px; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; }
 thead th:hover { color: var(--teal-deep); }
 thead th .arrow { font-size: 9px; margin-left: 3px; opacity: .6; }
-tbody td { padding: 11px 10px; border-bottom: 1px solid var(--border); color: var(--text); font-weight: 600; }
-tbody tr:last-child td { border-bottom: none; }
+thead tr{height: 0;}
+tbody td { padding: 18px; border-bottom: 1px solid var(--border); color: var(--text); font-weight: 600; }
+tbody tr{    height:50px;}
 tbody tr:hover { background: #FAFBFE; }
 
-.type-cell { display: flex; align-items: center; gap: 10px; }
+
+.type-cell { display: flex; align-items: center; gap: 14px; }
 .type-ico { width: 28px; height: 28px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #fff; flex-shrink: 0; }
 .status-pill { display: inline-flex; align-items: center; gap: 6px; background: var(--green-bg); color: var(--green); font-weight: 700; font-size: 10.5px; padding: 4px 12px; border-radius: 20px; }
 .status-pill.warn { background: var(--amber-bg); color: #B4790C; }
@@ -16,11 +29,11 @@ tbody tr:hover { background: #FAFBFE; }
 .badge.attack { background: var(--red-bg); color: var(--red); }
 .badge.normal { background: var(--green-bg); color: var(--green); }
 .conf-cell { display: flex; align-items: center; gap: 8px; }
-.conf-track { width: 74px; height: 6px; border-radius: 4px; background: var(--border); overflow: hidden; }
+.conf-track { width: 105px; height: 6px; border-radius: 4px; background: var(--border); overflow: hidden; }
 .conf-fill { height: 100%; border-radius: 4px; background: var(--grad-teal); }
-.conf-num { font-family: var(--font-mono); font-size: 11.5px; font-weight: 600; color: var(--text); }
+.conf-num { font-family: var(--font); font-size: 11.5px; font-weight: 600; color: var(--text); }
 
-.filter-card { margin-bottom: 16px; }
+.filter-card { margin-bottom: 20px; }
 .filter-grid { display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap; }
 .f-field { display: flex; flex-direction: column; gap: 7px; }
 .f-field label { font-size: 11px; font-weight: 700; color: var(--text-dim); }
@@ -38,9 +51,27 @@ tbody tr:hover { background: #FAFBFE; }
 .view-toggle button.active { background: var(--card); color: var(--navy); box-shadow: var(--shadow-sm); }
 .results-meta { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
 .results-count { font-size: 11.5px; color: var(--text-faint); font-weight: 700; }
+
 .pager { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; font-size: 11px; color: var(--text-faint); font-weight: 600; }
 .pager-btns { display: flex; gap: 8px; }
 .pager-btns button { border: 1px solid var(--border); background: var(--card); border-radius: 9px; padding: 6px 12px; font-size: 11px; font-weight: 700; color: var(--text-dim); cursor: pointer; }
 .pager-btns button:hover { border-color: var(--teal); color: var(--teal-deep); }
+
+.th-content{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding-bottom: 12px;  
+}
+
+.card {    padding:20px;}
+
+.results-card {
+    flex: 1;
+    min-height: 0;
+    max-height: 505px;
+    display: flex;
+    flex-direction: column;
+}
 
 @media(max-width: 1200px) { .filter-grid { gap: 12px; } .f-field { flex: 1 1 160px; } }
