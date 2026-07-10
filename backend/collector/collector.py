@@ -1,17 +1,18 @@
-from pathlib import Path
-
 import pandas as pd
-
-BASE_DIR = Path(__file__).resolve().parents[2]
-
-TEST_DATA = BASE_DIR / "dataset" / "processed" / "test.csv"
-
+from backend.storage.download_dataset import download_latest_dataset
 
 class Collector:
 
     def __init__(self):
 
-        self.df = pd.read_csv(TEST_DATA)
+        csv_path = download_latest_dataset()
+
+        if csv_path is None:
+            raise FileNotFoundError(
+                "Object Storage에 CSV가 없습니다."
+            )
+
+        self.df = pd.read_csv(csv_path)
 
         self.current_index = 0
 
@@ -20,16 +21,15 @@ class Collector:
         print("=" * 50)
         print(f"{len(self.df)} rows loaded.")
 
-    def collect_batch(self, batch_size=100):
+    def collect_batch(self, batch_size):
 
         if self.current_index >= len(self.df):
+            self.current_index = 0
 
-            return None
+        batch = self.df.iloc[
+            self.current_index:self.current_index+batch_size
+        ].copy()
 
-        start = self.current_index
+        self.current_index += batch_size
 
-        end = min(start + batch_size, len(self.df))
-
-        self.current_index = end
-
-        return self.df.iloc[start:end].copy()
+        return batch

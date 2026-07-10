@@ -39,7 +39,6 @@ export default function AttackTrendChart({ hours, lineData }) {
           <div className="card-title">실시간 공격 추이</div>
           <div className="card-sub">공격 발생 건수 · 24시간</div>
         </div>
-        <div className="dropdown-pill">오늘 ▾</div>
       </div>
       <div className="chart-box" style={{ height: 210 }}>
         <canvas ref={lineCanvasRef} />
