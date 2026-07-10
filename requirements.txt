@@ -1,16 +1,15 @@
-fastapi
-uvicorn[standard]
-pandas
-numpy
-scikit-learn
-joblib
+fastapi==0.139.0
+uvicorn==0.50.2
 
-oracledb
-oci
+pandas==3.0.3
+numpy==2.4.6
+scikit-learn==1.9.0
+scipy==1.17.1
+joblib==1.5.3
 
-kafka-python
+mysql-connector-python==9.7.0
 
-python-dotenv
-requests
+python-dotenv==1.2.2
+python-multipart==0.0.32
 
-python-multipart
+requests==2.34.2
